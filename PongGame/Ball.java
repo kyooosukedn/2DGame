@@ -22,9 +22,13 @@ class Ball {
     x += dx;
     y += dy;
 
+    // Wall collision top and bottom
+
     if (y < 0 || y + SIZE > PongGame.HEIGHT) {
       dy *= -1;
     }
+
+    // Wall collision Paddles
 
     if (x < Paddle.WIDTH && y + SIZE >= leftPaddle.getY() && y <= leftPaddle.getY() + Paddle.HEIGHT) {
       dx *= -1;
@@ -34,6 +38,8 @@ class Ball {
         && y <= rightPaddle.getY() + Paddle.HEIGHT) {
       dx *= -1;
     }
+
+    // Wall collision left and right
 
     if (x < 0 || x + SIZE > PongGame.WIDTH) {
       reset();
