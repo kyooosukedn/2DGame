@@ -51,4 +51,12 @@ class Ball {
     g2d.setColor(Color.WHITE);
     g2d.fillRect(x, y, SIZE, SIZE);
   }
+
+  public int getX() {
+    return this.x;
+  }
+
+  public int getY() {
+    return this.y;
+  }
 }

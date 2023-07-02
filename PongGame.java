@@ -6,9 +6,9 @@ public class PongGame extends JFrame {
   public static final int WIDTH = 800;
   public static final int HEIGHT = 600;
 
-  private Paddle leftPaddle;
-  private Paddle rightPaddle;
-  private Ball ball;
+  Paddle leftPaddle;
+  Paddle rightPaddle;
+  Ball ball;
 
   public PongGame() {
     setTitle("Pong Game");
@@ -35,10 +35,37 @@ public class PongGame extends JFrame {
     setFocusable(true);
   }
 
+  public void handleKeyPress(KeyEvent e) {
+    int keyCode = e.getKeyCode();
+    if (keyCode == KeyEvent.VK_W) {
+      leftPaddle.setDy(-3);
+    }
+    if (keyCode == KeyEvent.VK_S) {
+      leftPaddle.setDy(3);
+    }
+    if (keyCode == KeyEvent.VK_UP) {
+      rightPaddle.setDy(-3);
+    }
+    if (keyCode == KeyEvent.VK_DOWN) {
+      rightPaddle.setDy(3);
+    }
+  }
+
+  public void handleKeyRelease(KeyEvent e) {
+    int keyCode = e.getKeyCode();
+    if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_S) {
+      leftPaddle.setDy(0);
+    }
+    if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN) {
+      rightPaddle.setDy(0);
+    }
+
+  }
+
   public void startGame() {
     while (true) {
       update();
-      paint();
+      repaint();
       try {
         Thread.sleep(10);
       } catch (InterruptedException e) {
