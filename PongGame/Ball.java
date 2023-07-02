@@ -1,68 +1,51 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
-class Ball {
-  public static final int SIZE = 20;
-  private static final int SPEED = 3;
-
+public class Ball {
   private int x;
   private int y;
+  private int diameter;
   private int dx;
   private int dy;
+  private Color color;
 
-  public Ball(int x, int y) {
+  public Ball(int x, int y, int diameter, int dx, int dy, Color color) {
     this.x = x;
     this.y = y;
-    this.dx = SPEED;
-    this.dy = SPEED;
+    this.diameter = diameter;
+    this.dx = dx;
+    this.dy = dy;
+    this.color = color;
   }
 
-  public void update(Paddle leftPaddle, Paddle rightPaddle) {
+  public void update() {
     x += dx;
     y += dy;
-
-    // Wall collision top and bottom
-
-    if (y < 0 || y + SIZE > PongGame.HEIGHT) {
-      dy *= -1;
-    }
-
-    // Wall collision Paddles
-
-    if (x < Paddle.WIDTH && y + SIZE >= leftPaddle.getY() && y <= leftPaddle.getY() + Paddle.HEIGHT) {
-      dx *= -1;
-    }
-
-    if (x + SIZE > PongGame.WIDTH - Paddle.WIDTH && y + SIZE >= rightPaddle.getY()
-        && y <= rightPaddle.getY() + Paddle.HEIGHT) {
-      dx *= -1;
-    }
-
-    // Wall collision left and right
-
-    if (x < 0 || x + SIZE > PongGame.WIDTH) {
-      reset();
-    }
   }
 
-  public void reset() {
-    x = PongGame.WIDTH / 2 - SIZE / 2;
-    y = PongGame.HEIGHT / 2 - SIZE / 2;
-    dx = SPEED;
-    dy = SPEED;
+  public void draw(Graphics g) {
+    g.setColor(color);
+    g.fillOval(x, y, diameter, diameter);
   }
 
-  public void paint(Graphics2D g2d) {
-    g2d.setColor(Color.WHITE);
-    g2d.fillRect(x, y, SIZE, SIZE);
+  public void changeDirectionX() {
+    dx = -dx;
   }
+
+  public void changeDirectionY() {
+    dy = -dy;
+  }
+
+  // Getters and setters
 
   public int getX() {
-    return this.x;
+    return x;
   }
 
   public int getY() {
-    return this.y;
+    return y;
+  }
+
+  public int getDiameter() {
+    return diameter;
   }
 }

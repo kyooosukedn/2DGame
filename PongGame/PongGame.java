@@ -1,71 +1,54 @@
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 import java.awt.event.*;
 
-public class PongGame extends JFrame {
+public class PongGame extends JPanel implements Runnable {
   public static final int WIDTH = 800;
-  public static final int HEIGHT = 600;
+  public static final int HEIGHT = 400;
 
-  Paddle leftPaddle;
-  Paddle rightPaddle;
-  Ball ball;
+  private boolean running;
+  private Thread gameThread;
+  private Paddle paddleLeft;
+  private Paddle paddleRight;
+  private Ball ball;
 
   public PongGame() {
-    setTitle("Pong Game");
-    setSize(WIDTH, HEIGHT);
-    setResizable(false);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    leftPaddle = new Paddle(20, HEIGHT / 2 - Paddle.HEIGHT / 2);
-    rightPaddle = new Paddle(WIDTH - Paddle.WIDTH - 20, HEIGHT / 2 - Paddle.HEIGHT / 2);
-    ball = new Ball(WIDTH / 2 - Ball.SIZE / 2, HEIGHT / 2 - Ball.SIZE / 2);
-
-    addKeyListener(new KeyAdapter() {
-      @Override
-      public void keyPressed(KeyEvent e) {
-        handleKeyPress(e);
-      }
-
-      @Override
-      public void keyReleased(KeyEvent e) {
-        handleKeyRelease(e);
-      }
-    });
-
+    setPreferredSize(new Dimension(WIDTH, HEIGHT));
     setFocusable(true);
-  }
+    requestFocus();
 
-  public void handleKeyPress(KeyEvent e) {
-    int keyCode = e.getKeyCode();
-    if (keyCode == KeyEvent.VK_W) {
-      leftPaddle.setDy(-3);
-    }
-    if (keyCode == KeyEvent.VK_S) {
-      leftPaddle.setDy(3);
-    }
-    if (keyCode == KeyEvent.VK_UP) {
-      rightPaddle.setDy(-3);
-    }
-    if (keyCode == KeyEvent.VK_DOWN) {
-      rightPaddle.setDy(3);
-    }
-  }
+    paddleLeft = new Paddle(10, HEIGHT / 2 - 80 / 2, 20, 80, 5, Color.BLUE);
+    paddleRight = new Paddle(WIDTH - 80 - 10, HEIGHT / 2 - 80 / 2, 20, 80, 5, Color.RED);
+    ball = new Ball(WIDTH / 2 - 40 / 2, HEIGHT / 2 - 40 / 2, 20, 8, 5, Color.WHITE);
 
-  public void handleKeyRelease(KeyEvent e) {
-    int keyCode = e.getKeyCode();
-    if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_S) {
-      leftPaddle.setDy(0);
-    }
-    if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN) {
-      rightPaddle.setDy(0);
-    }
-
+    running = false;
   }
 
   public void startGame() {
-    while (true) {
+    if (!running) {
+      running = true;
+      gameThread = new Thread(this);
+      gameThread.start();
+    }
+  }
+
+  public void stopGame() {
+    if (running) {
+      running = false;
+      try {
+        gameThread.join();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  @Override
+  public void run() {
+    while (running) {
       update();
       repaint();
+
       try {
         Thread.sleep(10);
       } catch (InterruptedException e) {
@@ -74,30 +57,34 @@ public class PongGame extends JFrame {
     }
   }
 
-  public void update() {
-    leftPaddle.update();
-    rightPaddle.update();
-    ball.update(leftPaddle, rightPaddle);
+  private void update() {
+    paddleLeft.update();
+    paddleRight.update();
+    ball.update();
   }
 
   @Override
-  public void paint(Graphics g) {
-    super.paint(g);
-    Graphics2D g2d = (Graphics2D) g;
+  protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    g.setColor(Color.BLACK);
+    g.fillRect(0, 0, WIDTH, HEIGHT);
 
-    g2d.setColor(Color.BLACK);
-    g2d.fillRect(0, 0, WIDTH, HEIGHT);
-
-    leftPaddle.paint(g2d);
-    rightPaddle.paint(g2d);
-    ball.paint(g2d);
+    paddleLeft.draw(g);
+    paddleRight.draw(g);
+    ball.draw(g);
   }
 
   public static void main(String[] args) {
     SwingUtilities.invokeLater(() -> {
-      PongGame game = new PongGame();
-      game.setVisible(true);
-      game.startGame();
+      JFrame frame = new JFrame("Pong Game");
+      PongGame pongGame = new PongGame();
+      frame.add(pongGame);
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.pack();
+      frame.setLocationRelativeTo(null);
+      frame.setResizable(false);
+      frame.setVisible(true);
+      pongGame.startGame();
     });
   }
 }

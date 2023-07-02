@@ -1,46 +1,62 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
-class Paddle {
-  public static final int WIDTH = 20;
-  public static final int HEIGHT = 100;
-  private static final int SPEED = 5;
-
+public class Paddle {
   private int x;
   private int y;
+  private int width;
+  private int height;
   private int dy;
+  private Color color;
 
-  public Paddle(int x, int y) {
+  public Paddle(int x, int y, int width, int height, int dy, Color color) {
     this.x = x;
     this.y = y;
-    this.dy = 0;
-  }
-
-  public void setDy(int dy) {
+    this.width = width;
+    this.height = height;
     this.dy = dy;
+    this.color = color;
   }
 
   public void update() {
     y += dy;
-
-    if (y < 0) {
-      y = 0;
-    } else if (y + HEIGHT > PongGame.HEIGHT) {
-      y = PongGame.HEIGHT - HEIGHT;
-    }
   }
 
-  public void paint(Graphics2D g2d) {
-    g2d.setColor(Color.WHITE);
-    g2d.fillRect(x, y, WIDTH, HEIGHT);
+  public void draw(Graphics g) {
+    g.setColor(color);
+    g.fillRect(x, y, width, height);
   }
+
+  public void moveUp() {
+    dy = -5;
+  }
+
+  public void moveDown() {
+    dy = 5;
+  }
+
+  public void stopMoving() {
+    dy = 0;
+  }
+
+  // Getters and setters
 
   public int getX() {
-    return this.x;
+    return x;
   }
 
   public int getY() {
-    return this.y;
+    return y;
+  }
+
+  public int getWidth() {
+    return width;
+  }
+
+  public int getHeight() {
+    return height;
+  }
+
+  public void setY(int y) {
+    this.y = y;
   }
 }
