@@ -17,10 +17,12 @@ public class FirstGame extends Canvas implements Runnable {
   public FirstGame() {
 
     handler = new Handler();
-    KeyInput keyInput = new KeyInput(handler);
-    this.addKeyListener(keyInput);
+
+    this.addKeyListener(new KeyInput(handler));
 
     window = new WindowFrame(WIDTH, HEIGHT, "First Game", this);
+
+    Random r = new Random();
 
     handler.addObject(new Player(WIDTH / 2 - 32, HEIGHT / 2 - 32, ID.Player));
     handler.addObject(new Player(WIDTH / 2 + 64, HEIGHT / 2 - 32, ID.Enemy));
