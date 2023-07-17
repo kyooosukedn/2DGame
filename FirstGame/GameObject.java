@@ -37,4 +37,16 @@ public abstract class GameObject {
     this.velX = velX;
   }
 
+  public int getVelocityX() {
+    return this.velX;
+  }
+
+  public void setID(ID id) {
+    this.id = id;
+  }
+
+  public ID getID() {
+    return this.id;
+  }
+
 }

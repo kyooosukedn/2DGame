@@ -15,17 +15,15 @@ public class FirstGame extends Canvas implements Runnable {
   public Handler handler;
 
   public FirstGame() {
-    window = new WindowFrame(WIDTH, HEIGHT, "First Game", this);
+
     handler = new Handler();
+    KeyInput keyInput = new KeyInput(handler);
+    this.addKeyListener(keyInput);
 
-    Random r = new Random();
+    window = new WindowFrame(WIDTH, HEIGHT, "First Game", this);
 
-    for (int i = 0; i < 50; i++) {
-      handler.addObject(new Player(r.nextInt(10), r.nextInt(10), ID.Player));
-    }
-
-    handler.addObject(new Player(100, 100, ID.Player));
-    handler.addObject(new Player(200, 200, ID.Player));
+    handler.addObject(new Player(WIDTH / 2 - 32, HEIGHT / 2 - 32, ID.Player));
+    handler.addObject(new Player(WIDTH / 2 + 64, HEIGHT / 2 - 32, ID.Enemy));
   }
 
   public synchronized void start() {
@@ -65,7 +63,7 @@ public class FirstGame extends Canvas implements Runnable {
 
       if (System.currentTimeMillis() - timer > 1000) {
         timer += 1000;
-        System.out.println("FPS: " + frames);
+        // System.out.println("FPS: " + frames);
         frames = 0;
       }
     }
