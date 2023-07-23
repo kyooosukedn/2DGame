@@ -17,10 +17,8 @@ public class Player extends GameObject {
   }
 
   public void render(Graphics g) {
-    if (id == ID.Player)
       g.setColor(Color.white);
-    if (id == ID.Enemy)
-      g.setColor(Color.red);
+
     g.fillOval(x, y, 32, 32);
   }
 }
