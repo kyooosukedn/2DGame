@@ -14,6 +14,9 @@ public class Player extends GameObject {
   public void tick() {
     x += velX;
     y += velY;
+
+    x = FirstGame.clamp(x, 0, FirstGame.WIDTH - 32);
+    y = FirstGame.clamp(y, 0, FirstGame.HEIGHT - 32);
   }
 
   public void render(Graphics g) {
@@ -21,4 +24,5 @@ public class Player extends GameObject {
 
     g.fillOval(x, y, 32, 32);
   }
+
 }

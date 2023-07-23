@@ -5,6 +5,9 @@ public class BasicEnemy extends GameObject{
 
     public BasicEnemy (int x, int y, ID id) {
         super(x, y, id);
+
+        velX += 5;
+        velY += 5;
     }
 
     public void tick() {

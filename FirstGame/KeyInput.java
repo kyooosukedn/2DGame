@@ -20,15 +20,17 @@ public class KeyInput extends KeyAdapter {
       // set key event for player 1
       if (tempObject.getID() == ID.Player) {
 
-        if (key == KeyEvent.VK_W) tempObject.setY(tempObject.getY() - 1);
-        if (key == KeyEvent.VK_A) tempObject.setX(tempObject.getX() -1);
+        if (key == KeyEvent.VK_W) tempObject.setY(tempObject.getY() - 5);
+        if (key == KeyEvent.VK_A) tempObject.setX(tempObject.getX() -5);
 
-        if (key == KeyEvent.VK_S) tempObject.setY(tempObject.getY() + 1);
-        if (key == KeyEvent.VK_D) tempObject.setX(tempObject.getX() + 1);
+        if (key == KeyEvent.VK_S) tempObject.setY(tempObject.getY() + 5);
+        if (key == KeyEvent.VK_D) tempObject.setX(tempObject.getX() + 5);
+
+        if (key == KeyEvent.VK_ESCAPE) System.exit(1);
       }
 
       // set key event for player 2
-      if (tempObject.getID() == ID.Enemy) {
+      if (tempObject.getID() == ID.BasicEnemy) {
         if (key == KeyEvent.VK_UP) tempObject.setY(tempObject.getY() - 1);
         if (key == KeyEvent.VK_LEFT) tempObject.setX(tempObject.getX() -1);
 
@@ -57,7 +59,7 @@ public class KeyInput extends KeyAdapter {
       }
 
       // set key event for player 2
-      if (tempObject.getID() == ID.Enemy) {
+      if (tempObject.getID() == ID.BasicEnemy) {
         if (key == KeyEvent.VK_UP) tempObject.setY(tempObject.getY() - 1);
         if (key == KeyEvent.VK_LEFT) tempObject.setX(tempObject.getX() -1);
 
